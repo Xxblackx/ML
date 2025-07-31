@@ -5,6 +5,9 @@ import torch
 import torch.nn as nn
 from PIL import Image
 
+working_dir = "shapeClassifier/"
+
+
 # 1. Определение архитектуры модели
 # ВАЖНО: Эта архитектура должна в точности соответствовать той, 
 # что вы использовали для обучения 'shape_classifier_robust.pth'.
@@ -152,8 +155,8 @@ model = ShapeClassifier(input_size=128).to(device)
 
 try:
     # Загружаем веса именно новой, улучшенной модели
-    model.load_state_dict(torch.load('shape_classifier(22).pth', map_location=device))
-    # model.load_state_dict(torch.load('best_shape_classifier.pth', map_location=device))
+    model.load_state_dict(torch.load(working_dir + 'shape_classifier(22).pth', map_location=device))
+    # model.load_state_dict(torch.load(working_dir + 'best_shape_classifier.pth', map_location=device))
     print("Улучшенная модель 'shape_classifier_robust.pth' успешно загружена.")
 except FileNotFoundError:
     print("Ошибка: Файл 'shape_classifier_robust.pth' не найден.")
@@ -188,9 +191,9 @@ def process_paint_image(image_path):
 if __name__ == '__main__':
     # Пути к вашим изображениям
     hand_drawn = {
-        'circle': 'circle1.png',
-        'square': 'square1.png',
-        'triangle': 'triangle1.png'
+        'circle':   working_dir + 'circle1.png',
+        'square':   working_dir + 'square1.png',
+        'triangle': working_dir +  'triangle1.png'
     }
 
     class_names = ['circle', 'square', 'triangle']
@@ -226,7 +229,7 @@ if __name__ == '__main__':
 
     plt.tight_layout(pad=3.0)
     plt.suptitle("Тестирование на ручных изображениях (Улучшенная Модель)", fontsize=16)
-    plt.savefig('paint_test_results_robust.png')
+    plt.savefig(working_dir + 'paint_test_results_robust.png')
     plt.show()
 
     print("\nДетальный отчет по ручным изображениям (Улучшенная Модель):")
