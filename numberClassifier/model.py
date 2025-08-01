@@ -14,9 +14,6 @@ BATCH_SISE = 64
 train_dl = DataLoader(train_data, batch_size=BATCH_SISE, shuffle=True)
 valid_dl = DataLoader(test_data, batch_size=BATCH_SISE * 2)
 
-# xb,yb = train_ds[i*bs : i*bs+bs]
-
-
 
 class MnistCNN_stupid(nn.Module):
     def __init__(self):
@@ -60,18 +57,20 @@ class MnistCNN(nn.Module):
             model.train() 
             epoch_train_loss = 0.0
             for batch_x, batch_y in tqdm(train_dl, desc=f"Epoch {epoch+1}/{epochs}"):
-
-                opt.zero_grad()
+                batch_x, batch_y = batch_x.to(device), batch_y.to(device)
+                
+                opt.zero_grad() # обнуляем градиенты после предыдущих операций
                 predictions = model(batch_x) 
                 loss = criterion(predictions, batch_y)
-                loss.backward()
-                opt.step()
+                loss.backward() # обратное распространение 
+                opt.step() # рассчет градиента 
                 epoch_train_loss += loss.item()
 
             avg_train_loss = epoch_train_loss / len(train_dl)
             # history['train_loss'].append(avg_train_loss)
 
-            model.eval()
+            # --- ПРОВЕРКА НА ВАЛИДАЦИОННЫХ ДАННЫХ ---
+            model.eval() # отключение параметров, используемых для обучения (dropout ...)
 
             epoch_val_loss = 0.0
             all_true_labels = []
@@ -100,8 +99,6 @@ class MnistCNN(nn.Module):
             # 6. Записать результаты в историю
             # history['val_loss'].append(avg_val_loss)
             # history['val_accuracy'].append(accuracy)
-
-            # 7. Напечатать сводку по эпохе
             print(f"Эпоха {epoch + 1}: Train Loss = {avg_train_loss:.4f}, Val Loss = {avg_val_loss:.4f}, Val Accuracy = {accuracy:.4f}")
         
         torch.save(model.state_dict(), 'my_cool_model.pth')
@@ -118,4 +115,4 @@ opt = optim.SGD(model.parameters(), lr=lr, momentum=0.6)
 
 criterion = nn.CrossEntropyLoss()
 
-model.fit(20  ,opt,criterion)
+model.fit(20, opt, criterion)

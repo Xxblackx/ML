@@ -154,3 +154,4 @@ ax2.set_ylim(0, 1) # Устанавливаем лимит по Y от 0 до 1
 # Показываем оба графика
 plt.tight_layout(rect=[0, 0.03, 1, 0.95]) # Оставляем место для suptitle
 plt.show()
+plt.savefig('numberClassifier/' 'Answer.png')
