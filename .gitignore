@@ -1,3 +1,5 @@
 _pycache_/
 venv
 /venv/
+/data
+data
