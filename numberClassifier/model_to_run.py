@@ -116,8 +116,8 @@ def fit(epochs, model, train_loader, val_loader, opt, criterion, device):
     plt.title('Матрица ошибок', fontsize=15)
 
     # 5. Показываем график
-    plt.show()
     plt.savefig('numberClassifier/' 'Matrix.png')
+    plt.show()
 
 
     torch.save(model.state_dict(), 'numberClassifier/' 'my_cool_model.pth')

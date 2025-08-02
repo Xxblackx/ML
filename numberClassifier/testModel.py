@@ -131,6 +131,6 @@ ax2.set_ylabel("Вероятность")
 ax2.set_ylim(0, 1) 
 
 
-plt.tight_layout(rect=[0, 0.03, 1, 0.95]) 
-plt.show()
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 plt.savefig('numberClassifier/' 'Answer.png')
+plt.show()
